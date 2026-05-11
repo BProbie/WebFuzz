@@ -44,7 +44,7 @@
 
 # ⭐脚本简介
 
-### 用于网络空间安全学习以及测试的Web应用模糊测试脚本
+### 基于payload而非字典，用于网络空间安全学习以及测试的，Web应用模糊测试脚本
 
 
 
@@ -107,7 +107,7 @@ options:
 | 查看帮助 |  -help  |  -h  |   查看帮助   |           /           |                WebFuzz -h                 |  /   |  /   |               /                |
 | 请求网址 |  -url   |  -u  | 设置请求网址 | https://www.baidu.com |     WebFuzz -u https://www.baidu.com      |  是  |  /   |               /                |
 | 请求类型 |  -type  |  -t  | 设置请求类型 |       POST/GET        |              WebFuzz -t POST              |  否  | POST |               /                |
-| 请求参数 |  -data  | -dt  | 设置请求参数 |    {'key':'value'}    |        WebFuzz -dt {'key':'value'}        |  是  |  /   |               /                |
+| 请求参数 |  -data  | -dt  | 设置请求参数 |    {'key':'value'}    |        WebFuzz -dt {'key':'value'}        |  是  |  /   |   默认以第一对键值为Fuzz对象   |
 | 拦截标志 |  -waf   |  -w  | 设置拦截标志 |      waf/['waf']      | WebFuzz -w waf \| WebFuzz -w ['waf','no'] |  是  |  /   | ['waf','no']两个标志是或的关系 |
 | 请求间隔 | -delay  | -dl  | 设置请求间隔 |           0           |               WebFuzz -dl 0               |  否  |  0   |               /                |
 | 请求线程 | -thread | -tr  | 设置请求线程 |           1           |               WebFuzz -tr 1               |  否  |  1   |               /                |
