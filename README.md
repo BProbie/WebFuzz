@@ -76,6 +76,8 @@ build
 ##### 运行测试
 
 ```shell
+cd ..
+cd dist
 main -u http://www.baidu.com -dt {'key':'value'} -w ['waf']
 ```
 
