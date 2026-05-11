@@ -107,7 +107,7 @@ options:
 |   名称   |  参数   | 简化 |     作用     |         规范          |                   示例                    | 必要 | 默认 |              备注              |
 | :------: | :-----: | :--: | :----------: | :-------------------: | :---------------------------------------: | :--: | :--: | :----------------------------: |
 | 查看帮助 |  -help  |  -h  |   查看帮助   |           /           |                WebFuzz -h                 |  /   |  /   |               /                |
-| 请求网址 |  -url   |  -u  | 设置请求网址 | https://www.baidu.com |     WebFuzz -u https://www.baidu.com      |  是  |  /   |     可在网址中带上GET参数      |
+| 请求网址 |  -uri   |  -u  | 设置请求网址 | https://www.baidu.com |     WebFuzz -u https://www.baidu.com      |  是  |  /   |     可在网址中带上GET参数      |
 | 请求类型 |  -type  |  -t  | 设置请求类型 |       POST/GET        |              WebFuzz -t POST              |  否  | POST |               /                |
 | 请求参数 |  -data  | -dt  | 设置请求参数 |    {'key':'value'}    |        WebFuzz -dt {'key':'value'}        |  是  |  /   |   默认以第一对键值为Fuzz对象   |
 | 拦截标志 |  -waf   |  -w  | 设置拦截标志 |      waf/['waf']      | WebFuzz -w waf \| WebFuzz -w ['waf','no'] |  是  |  /   | ['waf','no']两个标志是或的关系 |
