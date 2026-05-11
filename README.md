@@ -143,7 +143,7 @@ WebFuzz/
 │   └── workflows/
 │       └── build.yml
 ├── .git/ # 已在仓库中删除
-├── .idea/ # 已在仓库中删除
+├── .idea/ # 已在仓库中删减
 ├── build/ # 已在仓库中删除
 ├── dist/ # 已在仓库中删除
 ├── scripts/

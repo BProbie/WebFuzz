@@ -91,7 +91,7 @@ def splitElements(elementsList: list[str], count: int) -> list[list[str]]:
     return [elementsList[i * size + min(i, rest):(i + 1) * size + min(i + 1, rest)] for i in range(count)]
 
 """
-最小化元素集合中的共有元素
+最小化元素集合中的共有元素(回溯法)
 @param elementList: 元素集合
 @return: 最小共有元素集合
 """
