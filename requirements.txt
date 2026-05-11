@@ -1,0 +1,4 @@
+PyInstaller~=6.15.0
+
+requests~=2.33.1
+fake-useragent~=2.2.0
