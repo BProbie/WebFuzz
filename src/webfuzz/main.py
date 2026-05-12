@@ -12,6 +12,7 @@ import requests
 import itertools
 import threading
 import fake_useragent
+from collections import defaultdict
 
 """
 脚本信息
@@ -96,48 +97,110 @@ def splitElements(elementsList: list[str], count: int) -> list[list[str]]:
 @return: 最小共有元素集合
 """
 def minElement(elementList: list[str]) -> list[str]:
-    from collections import defaultdict
     str_count = len(elementList)
-    substr_cover = defaultdict(set)
+    if str_count == 0:
+        return []
 
+    if str_count == 1:
+        s = elementList[0]
+        return [min(s, key=len)] if s else []
+
+    substr_cover = defaultdict(set)
     for idx, s in enumerate(elementList):
         n = len(s)
-        unique_subst = set()
+        seen = set()
         for i in range(n):
             for j in range(i + 1, n + 1):
                 substr = s[i:j]
-                unique_subst.add(substr)
-        for substr in unique_subst:
-            substr_cover[substr].add(idx)
+                if substr not in seen:
+                    seen.add(substr)
+                    substr_cover[substr].add(idx)
+
+    substr_cover = {k: v for k, v in substr_cover.items() if v}
+
+    candidates = sorted(
+        substr_cover.items(),
+        key=lambda x: (-len(x[1]), len(x[0]))
+    )
+    filtered = []
+    for substr, cover in candidates:
+        dominated = False
+        for s, c in filtered:
+            if cover.issubset(c) and len(s) <= len(substr):
+                dominated = True
+                break
+        if not dominated:
+            filtered.append((substr, cover))
+
+    unique_cover = {}
+    for substr, cover in filtered:
+        cover_frozen = frozenset(cover)
+        if cover_frozen not in unique_cover or len(substr) < len(unique_cover[cover_frozen][0]):
+            unique_cover[cover_frozen] = (substr, cover)
+    candidates = list(unique_cover.values())
+
+    candidates.sort(key=lambda x: (len(x[0]), -len(x[1])))
+    substrs = [x[0] for x in candidates]
+    covers = [x[1] for x in candidates]
+    m = len(candidates)
+
+    if m == 0:
+        return elementList.copy()
 
     best_size = float('inf')
     best_res = []
-    all_subst = list(substr_cover.keys())
-    all_subst.sort(key=lambda x: (len(x), -len(substr_cover[x])))
+    best_total_len = float('inf')
+
+    max_cover_after = [0] * (m + 1)
+    for i in range(m - 1, -1, -1):
+        max_cover_after[i] = max(len(covers[i]), max_cover_after[i + 1])
 
     def backtrack(start, current_set, covered_indices):
-        nonlocal best_size, best_res
-        if len(current_set) > best_size:
+        nonlocal best_size, best_res, best_total_len
+
+        current_len = len(current_set)
+        remaining = str_count - len(covered_indices)
+
+        if current_len >= best_size:
             return
-        if len(covered_indices) == str_count:
-            current_len = len(current_set)
-            current_total_length = sum(len(s) for s in current_set)
-            best_total_length = sum(len(s) for s in best_res) if best_res else float('inf')
-            if current_len < best_size or (current_len == best_size and current_total_length < best_total_length):
+
+        if remaining == 0:
+            current_total = sum(len(s) for s in current_set)
+            if current_len < best_size or (current_len == best_size and current_total < best_total_len):
                 best_size = current_len
                 best_res = current_set.copy()
+                best_total_len = current_total
             return
-        for i in range(start, len(all_subst)):
-            substr = all_subst[i]
-            new_covered = substr_cover[substr]
-            if new_covered.issubset(covered_indices):
+
+        if start >= m:
+            return
+
+        max_possible_cover = max_cover_after[start]
+        if max_possible_cover == 0:
+            return
+
+        lower_bound = (remaining + max_possible_cover - 1) // max_possible_cover
+        if current_len + lower_bound >= best_size:
+            return
+
+        if best_size == 1:
+            return
+
+        for i in range(start, m):
+            substr = substrs[i]
+            cover = covers[i]
+
+            new_covered = cover - covered_indices
+            if not new_covered:
                 continue
+
             current_set.append(substr)
-            backtrack(i + 1, current_set, covered_indices.union(new_covered))
+            backtrack(i + 1, current_set, covered_indices | new_covered)
             current_set.pop()
 
     backtrack(0, [], set())
-    return best_res
+
+    return best_res if best_res else elementList.copy()
 
 """
 WebFuzz 最小线程任务单元
