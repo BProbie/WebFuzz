@@ -2,7 +2,7 @@
 
 ### 软件名称：WebFuzz（网安Web应用模糊测试脚本）
 
-### 软件版本：v1.0.0（稳定版）
+### 软件版本：v1.1.0（稳定版）
 
 ### 开发语言：Python（Python-3.13.0）
 
@@ -12,7 +12,7 @@
 
 ### 开源协议（MIT）：https://github.com/BProbie/WebFuzz/raw/refs/heads/master/LICENSE/
 
-### 下载地址（Github）：https://github.com/BProbie/WebFuzz/releases/tag/1.0.0/
+### 下载地址（Github）：https://github.com/BProbie/WebFuzz/releases/tag/1.1.0/
 
 ### 依赖工具：pip
 
@@ -121,7 +121,7 @@ WebFuzz -u http://challenge.imxbt.cn:32542/ -ty POST -dt {'user_input':'{{().__c
 ```
 
 ```shell
-Thanks For Using WebFuzz-v1.0.0 (https://github.com/BProbie/WebFuzz)
+Thanks For Using WebFuzz-v1.1.0 (https://github.com/BProbie/WebFuzz)
 Uri: http://challenge.imxbt.cn:32542/
 Type: POST
 Data: {'user_input': '().__class__.__base__.__subclasses__()}'}

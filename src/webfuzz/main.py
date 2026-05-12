@@ -18,7 +18,7 @@ from collections import defaultdict
 脚本信息
 """
 NAME = "WebFuzz"
-VERSION = "v1.0.0"
+VERSION = "v1.1.0"
 GITHUB = "https://github.com/BProbie/WebFuzz"
 
 """
