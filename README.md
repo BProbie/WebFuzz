@@ -62,8 +62,8 @@ git clone https://github.com/BProbie/WebFuzz.git
 
 ```shell
 cd WebFuzz
-python.exe -m pip install --upgrade pip
-python.exe -m pip install -r requirements.txt
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
 ##### 构建工具
@@ -151,6 +151,7 @@ WebFuzz/
 ├── scripts/
 │   ├── build.bat
 │   ├── build.sh
+│   ├── main.spec # 已在仓库中删除
 ├── src/
 │   └── webfuzz/
 │       └── main.py
