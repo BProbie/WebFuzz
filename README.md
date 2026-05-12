@@ -117,22 +117,22 @@ options:
 ### 使用示例
 
 ```shell
-WebFuzz -u http://challenge.imxbt.cn:32542/ -ty POST -dt {'user_input':'{{().__class__.__base__.__subclasses__()}}'} -w ['waf'] -dl 0 -tr 100
+WebFuzz -u http://challenge.imxbt.cn:30678 -ty POST -dt {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -w ['waf'] -dl 0 -tr 100
 ```
 
 ```shell
 Thanks For Using WebFuzz-v1.1.0 (https://github.com/BProbie/WebFuzz)
-Uri: http://challenge.imxbt.cn:32542/
+Uri: http://challenge.imxbt.cn:30678
 Type: POST
-Data: {'user_input': '().__class__.__base__.__subclasses__()}'}
+Data: {'user_input': '{{().__class__.__bases__[0].__subclasses__()}}'}
 Waf: ['waf']
 Delay: 0
 Thread: 100
-The Script Start At The Time Of 2026-05-11 21:29:39
+The Script Start At The Time Of 2026-05-12 21:52:16
 
-[#########################] 780/780 (The Script End At The Time Of 2026-05-11 21:30:04)
+[#########################] 1081/1081 (The Script End At The Time Of 2026-05-12 21:52:53)
 
-The Result of WebFuzz: ['_']
+The Result of WebFuzz: ['_', '[']
 ```
 
 
