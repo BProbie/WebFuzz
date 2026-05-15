@@ -78,7 +78,7 @@ build
 ```shell
 cd ..
 cd dist
-main -u http://www.baidu.com -dt {'key':'value'} -w ['waf']
+main -u http://www.baidu.com -f POST -p {'key':'value'} -w ['waf']
 ```
 
 
