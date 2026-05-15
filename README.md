@@ -2,7 +2,7 @@
 
 ### 软件名称：WebFuzz（网安Web应用模糊测试脚本）
 
-### 软件版本：v1.1.0（稳定版）
+### 软件版本：v1.2.0（稳定版）
 
 ### 开发语言：Python（Python-3.13.0）
 
@@ -12,15 +12,15 @@
 
 ### 开源协议（MIT）：https://github.com/BProbie/WebFuzz/raw/refs/heads/master/LICENSE/
 
-### 下载地址（Github）：https://github.com/BProbie/WebFuzz/releases/tag/1.1.0/
+### 下载地址（Github）：https://github.com/BProbie/WebFuzz/releases/tag/1.2.0/
 
 ### 依赖工具：pip
 
 ### 依赖技术：
 
-- ##### PyInstaller~=6.15.0
+- ##### yarl~=1.23.0
 
-- ##### requests~=2.32.5
+- ##### aiohttp~=3.13.5
 
 - ##### fake-useragent~=2.2.0
 
@@ -92,47 +92,97 @@ WebFuzz -h
 ```
 
 ```shell
-usage: 命令行参数 [-h] [-uri URI] [-type TYPE] [-data DATA] [-waf WAF] [-delay DELAY] [-thread THREAD]
+usage: 命令行参数 [-h] [-uri URI] [-fuzz FUZZ] [-get GET] [-post POST] [-userAgent USERAGENT] [-cookie COOKIE] [-waf WAF]
+             [-delay DELAY] [-concurrency CONCURRENCY] [-timeout TIMEOUT] [-attempts ATTEMPTS]
 
 options:
-  -h, --help           show this help message and exit
-  -uri, -u URI         请求网址 https://www.baidu.com/
-  -type, -tp TYPE      请求类型 POST/GET
-  -data, -dt DATA      请求数据 {'key':'value'}
-  -waf, -w WAF         拦截标志 waf
-  -delay, -dl DELAY    间隔秒数 0
-  -thread, -tr THREAD  线程数量 1
+  -h, --help            show this help message and exit
+  -uri, -url, -u URI    请求网址 https://www.baidu.com/
+  -fuzz, -fz, -f FUZZ   测试类型 GET|POST|UserAgent|Cookie
+  -get, -gt, -g GET     GET数据 {'key':'value'}
+  -post, -pt, -p POST   POST数据 {'key':'value'}
+  -userAgent, -ua USERAGENT
+                        UserAgent数据 UserAgent
+  -cookie, -ck, -c COOKIE
+                        Cookie数据 {'key':'value'}
+  -waf, -wf, -w WAF     拦截标志 waf|['waf']
+  -delay, -dl, -d DELAY
+                        请求间隔(秒) 0
+  -concurrency, -cc CONCURRENCY
+                        并发数量(个) 1
+  -timeout, -to, -t TIMEOUT
+                        请求超时(秒) 60
+  -attempts, -attempt, -at, -a ATTEMPTS
+                        请求重试(次) 10
 ```
 
-|   名称   |  参数   | 简化 |     作用     |         规范          |                   示例                    | 必要 | 默认 |              备注              |
-| :------: | :-----: | :--: | :----------: | :-------------------: | :---------------------------------------: | :--: | :--: | :----------------------------: |
-| 查看帮助 |  -help  |  -h  |   查看帮助   |           /           |                WebFuzz -h                 |  /   |  /   |               /                |
-| 请求网址 |  -uri   |  -u  | 设置请求网址 | https://www.baidu.com |     WebFuzz -u https://www.baidu.com      |  是  |  /   |     可在网址中带上GET参数      |
-| 请求类型 |  -type  |  -t  | 设置请求类型 |       POST/GET        |              WebFuzz -t POST              |  否  | POST |               /                |
-| 请求参数 |  -data  | -dt  | 设置请求参数 |    {'key':'value'}    |        WebFuzz -dt {'key':'value'}        |  是  |  /   |   默认以第一对键值为Fuzz对象   |
-| 拦截标志 |  -waf   |  -w  | 设置拦截标志 |      waf/['waf']      | WebFuzz -w waf \| WebFuzz -w ['waf','no'] |  是  |  /   | ['waf','no']两个标志是或的关系 |
-| 请求间隔 | -delay  | -dl  | 设置请求间隔 |           0           |               WebFuzz -dl 0               |  否  |  0   |   当delay>=1时thread固定为1    |
-| 请求线程 | -thread | -tr  | 设置请求线程 |           1           |               WebFuzz -tr 1               |  否  |  1   |      范围在[1,CPU核数*10]      |
+|     名称      |     参数     | 简化 |         作用          |             规范             |   必要   | 默认 |               备注                |
+| :-----------: | :----------: | :--: | :-------------------: | :--------------------------: | :------: | :--: | :-------------------------------: |
+|   查看帮助    |    -help     |  -h  |       查看帮助        |              /               |    /     |  /   |                 /                 |
+|   请求网址    |     -uri     |  -u  |     设置请求网址      |    https://www.baidu.com     |    是    |  /   |                 /                 |
+|   测试类型    |    -fuzz     |  -f  |     设置测试类型      | GET\|POST\|UserAgent\|Cookie |    是    |  /   |                 /                 |
+|    GET数据    |     -get     |  -g  |    设置GET请求参数    |       {'key':'value'}        | 依据Fuzz |  {}  |    默认以第一对键值为Fuzz对象     |
+|   POST数据    |    -post     |  -p  |   设置POST请求参数    |       {'key':'value'}        | 依据Fuzz |  {}  |    默认以第一对键值为Fuzz对象     |
+| UserAgent数据 |  -userAgent  | -ua  | 设置UserAgent请求参数 |          UserAgent           | 依据Fuzz | 随机 |                 /                 |
+|  Cookie数据   |   -cookie    |  -c  |  设置Cookie请求参数   |       {'key':'value'}        | 依据Fuzz |  {}  |    默认以第一对键值为Fuzz对象     |
+|   拦截标志    |     -waf     |  -w  |     设置拦截标志      |         waf\|['waf']         |    是    |  /   | ['waf','block']两个标志是或的关系 |
+|   请求间隔    |    -delay    |  -d  |   设置请求间隔(秒)    |              0               |    否    |  0   |  当delay>=1时concurrency固定为1   |
+|   并发数量    | -concurrency | -cc  |   设置请求间隔(个)    |             100              |    否    | 100  |      范围在[1,(CPU核数*10)²]      |
+|   请求超时    |   -timeout   |  -t  | 设置请求超时限制(秒)  |              60              |    否    |  60  |                 /                 |
+|   请求重试    |  -attempts   |  -a  | 设置请求重试次数(次)  |              10              |    否    |  10  |                 /                 |
 
 ### 使用示例
 
+##### 通用示例
+
 ```shell
-WebFuzz -u http://challenge.imxbt.cn:30678 -ty POST -dt {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -w ['waf'] -dl 0 -tr 100
+WebFuzz -u http://challenge.imxbt.cn:31952/ -f POST -g {} -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -w ['waf'] -c {} -d 0 -cc 100 -t 60 -a 10
 ```
 
 ```shell
-Thanks For Using WebFuzz-v1.1.0 (https://github.com/BProbie/WebFuzz)
-Uri: http://challenge.imxbt.cn:30678
-Type: POST
-Data: {'user_input': '{{().__class__.__bases__[0].__subclasses__()}}'}
+====================================================================================================
+
+Thanks For Using WebFuzz-1.2.0 (https://github.com/BProbie/WebFuzz)
+
+Uri: http://challenge.imxbt.cn:31952/
+Fuzz: POST
+GET: {}
+POST: {'user_input': '{{().__class__.__bases__[0].__subclasses__()}}'}
+UserAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Cookie: {}
 Waf: ['waf']
 Delay: 0
-Thread: 100
-The Script Start At The Time Of 2026-05-12 21:52:16
+Concurrency: 100
+Timeout: 60
+Attempts: 10
 
-[#########################] 1081/1081 (The Script End At The Time Of 2026-05-12 21:52:53)
+The Script Start At The Time Of 2026-05-15 20:35:25
+
+[##################################################] 1081/1081
+
+The Script Stop At The Time Of 2026-05-15 20:35:59
+
+====================================================================================================
 
 The Result of WebFuzz: ['_', '[']
+```
+
+##### 小攻击载荷情况示例
+
+```shell
+WebFuzz -u http://challenge.imxbt.cn:31952/ -f POST -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -w ['waf'] -d 0 -cc 100
+```
+
+##### 大攻击载荷情况示例
+
+```shell
+WebFuzz -u http://challenge.imxbt.cn:31952/ -f POST -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -w ['waf'] -d 0 -cc 100000 -t 3600 -a 100
+```
+
+##### 访问冷却限制情况示例
+
+```shell
+WebFuzz -u http://challenge.imxbt.cn:31952/ -f POST -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -w ['waf'] -d 1
 ```
 
 
@@ -167,9 +217,41 @@ WebFuzz/
 
 ### ① 脚本做了多终端的适配
 
+##### 适配终端包括CMD、PowerShell、Shell等
+
+
+
 ### ② 脚本做了跨平台的适配
 
+##### 适配平台包括Windows32、Windows64、Linux、Mac
+
+
+
 ### ③ 脚本做了鲁棒性的适配
+
+##### 不仅支持用命令行工具执行命令使用，而且支持鼠标左键双击打开脚本根据引导使用
+
+##### 脚本还会自动匹配不合规范的参数值主动提出修正或者自动使用默认值作为替代
+
+
+
+### ④脚本采用进程+线程+协程模式
+
+##### 脚本会自动匹配最优并发模式
+
+##### 最高并发量可达[(CPU * 10)²] ≈ 10w+
+
+##### 其中并发效率在Linux和Mac操作系统中最为显著
+
+
+
+# ⭐技术创新
+
+### ① 不同于其他大多数Web模糊测试脚本是基于冗余的字典进行模糊测试的，这个脚本是基于更轻量的Payload攻击载荷进行模糊测试的。
+
+### ② 不同于其他大多数Web模糊测试脚本是只基于线程或只基于协程执行模糊测试的并发量有限，这个脚本是结合了线程和协程自动匹配最优配比执行模糊测试的，在没有TCP和端口限制的条件下并发数可以达到恐怖的10w+且性能稳定。
+
+### ③ 不同于其他大多数Web模糊测试脚本要么鲁棒性差要么注入点少，这个脚本很好地结合了鲁棒性和注入点两者，在提供了数个注入点的同时，对于不熟悉本脚本的使用者还提供了傻瓜模式和参数自检，对于要求较高的使用者还提供了多个参数用于自行修改。
 
 
 

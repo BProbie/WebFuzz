@@ -1,4 +1,4 @@
-@echo off
+#!/bin/bash
 
 cd /d ..
 
@@ -11,6 +11,6 @@ python -m PyInstaller -F ^
 --add-data "src/webfuzz/data;data" ^
 src/webfuzz/main.py
 
-move main.spec scripts
+mv main.spec scripts
 
-pause
+read -p "..."
