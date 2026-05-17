@@ -136,7 +136,7 @@ options:
 ##### 通用示例
 
 ```shell
-WebFuzz -u http://challenge.imxbt.cn:31952/ -f POST -g {} -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -w ['waf'] -c {} -d 0 -cc 100 -t 60 -a 10
+WebFuzz -u http://challenge.imxbt.cn:31952/ -f POST -g {} -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -c {} -w ['waf'] -d 0 -cc 100 -t 60 -a 10
 ```
 
 ```shell
@@ -160,7 +160,7 @@ The Script Start At The Time Of 2026-05-15 20:35:25
 
 [##################################################] 1081/1081
 
-The Script Stop At The Time Of 2026-05-15 20:35:59
+The Script Stop At The Time Of 2026-05-15 20:35:55
 
 ====================================================================================================
 

