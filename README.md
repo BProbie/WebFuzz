@@ -121,7 +121,7 @@ options:
   -delay, -dl, -d DELAY
                         请求间隔(秒) 0
   -concurrency, -cc CONCURRENCY
-                        并发数量(个) 1
+                        并发数量(个) 100
   -timeout, -to, -t TIMEOUT
                         请求超时(秒) 60
   -attempts, -attempt, -at, -a ATTEMPTS

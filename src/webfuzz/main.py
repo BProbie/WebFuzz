@@ -459,7 +459,7 @@ def getArgs() -> argparse.Namespace:
     parser.add_argument("-cookie", "-ck", "-c", type=str, required=False, help="Cookie数据" + " " + "{'key':'value'}")
     parser.add_argument("-waf", "-wf", "-w", type=str, required=False, help="拦截标志" + " " + "waf|['waf']")
     parser.add_argument("-delay", "-dl", "-d", type=str, required=False, help="请求间隔(秒)" + " " + "0")
-    parser.add_argument("-concurrency", "-cc", type=str, required=False, help="并发数量(个)" + " " + "1")
+    parser.add_argument("-concurrency", "-cc", type=str, required=False, help="并发数量(个)" + " " + "100")
     parser.add_argument("-timeout", "-to", "-t", type=str, required=False, help="请求超时(秒)" + " " + "60")
     parser.add_argument("-attempts", "-attempt", "-at", "-a", type=str, required=False, help="请求重试(次)" + " " + "10")
 
