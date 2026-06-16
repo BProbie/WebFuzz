@@ -297,6 +297,8 @@ WebFuzz/
 
 贡献者页：https://github.com/BProbie/WebFuzz/blob/master/CONTRIBUTORS.md
 
+依赖仓库：https://github.com/BProbie/WebFuzz/blob/master/requirements.txt
+
 
 
 # **❤❤❤**
