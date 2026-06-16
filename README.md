@@ -283,4 +283,20 @@ WebFuzz/
 
 
 
+## ⭐附录
+
+贡献指南：https://github.com/BProbie/WebFuzz?tab=contributing-ov-file
+
+社区准则：https://github.com/BProbie/WebFuzz?tab=coc-ov-file
+
+安全策略：https://github.com/BProbie/WebFuzz?tab=security-ov-file
+
+更新内容：https://github.com/BProbie/WebFuzz/blob/master/CHANGELOG.md
+
+作者详情：https://github.com/BProbie/WebFuzz/blob/master/AUTHORS.md
+
+贡献者页：https://github.com/BProbie/WebFuzz/blob/master/CONTRIBUTORS.md
+
+
+
 # **❤❤❤**
